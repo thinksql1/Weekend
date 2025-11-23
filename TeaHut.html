@@ -11,15 +11,15 @@
     <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script>
 
     <style>
-        /* --- DESIGN TOKENS: Ash & Ember System  --- */
+        /* --- DESIGN TOKENS: Ash & Ember System --- */
         :root {
             --color-ash: #EBEAE5;      /* Day Background / Text */
             --color-charcoal: #1A1A1A; /* Night Background / Text */
             --color-kyara: #4A3B32;    /* Borders / Accents */
             --color-gold: #C1AA67;     /* Highlights / Sacred Elements */
             
-            --font-serif: 'Georgia', 'Times New Roman', serif; /* Literary feel [cite: 130] */
-            --font-sans: 'Helvetica Neue', 'Arial', sans-serif; /* Modernist feel [cite: 133] */
+            --font-serif: 'Georgia', 'Times New Roman', serif;
+            --font-sans: 'Helvetica Neue', 'Arial', sans-serif;
         }
 
         /* Base Reset */
@@ -33,10 +33,10 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        h1, h2, h3 { font-family: var(--font-serif); font-weight: normal; margin: 0; }
+        h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: normal; margin: 0; }
         p { line-height: 1.8; opacity: 0.9; max-width: 700px; margin: 0 auto 1.5rem auto; }
         a { color: var(--color-gold); text-decoration: none; transition: opacity 0.3s; }
-        a:hover { opacity: 0.7; }
+        a:hover { opacity: 0.7; text-decoration: underline; }
 
         /* Typography Utils */
         .text-gold { color: var(--color-gold); }
@@ -47,12 +47,12 @@
 
         /* --- LAYOUT & COMPONENTS --- */
 
-        /* 1. The Smoke Canvas (Fixed Background)  */
+        /* 1. The Smoke Canvas (Fixed Background) */
         #canvas-container {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -1;
-            pointer-events: all; /* Allows mouse interaction with smoke */
+            pointer-events: all; 
         }
 
         /* 2. Scrollytelling Sections */
@@ -68,18 +68,20 @@
         }
 
         .content-block {
-            background: rgba(26, 26, 26, 0.6); /* Semi-transparent charcoal */
+            background: rgba(26, 26, 26, 0.6); 
             backdrop-filter: blur(8px);
             padding: 3rem;
-            border: 1px solid rgba(74, 59, 50, 0.5); /* Kyara border */
+            border: 1px solid rgba(74, 59, 50, 0.5); 
             border-radius: 4px;
             margin: 2rem 0;
             max-width: 800px;
+            width: 100%;
             opacity: 0; /* Animated by GSAP */
             transform: translateY(20px);
+            box-sizing: border-box;
         }
 
-        /* 3. Image Gallery (Masonry feel) */
+        /* 3. Image Gallery */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -93,9 +95,9 @@
             width: 100%;
             height: auto;
             border-radius: 2px;
-            filter: grayscale(20%) sepia(10%); /* Vintage/Memory feel */
+            filter: grayscale(20%) sepia(10%);
             transition: all 0.5s ease;
-            opacity: 0; /* Animated in */
+            opacity: 0; 
             border: 1px solid transparent;
         }
 
@@ -105,7 +107,7 @@
             transform: scale(1.01);
         }
 
-        /* 4. Audio Toggle [cite: 420] */
+        /* 4. Audio Toggle */
         #audio-btn {
             position: fixed;
             bottom: 30px; right: 30px;
@@ -120,7 +122,7 @@
         }
         #audio-btn:hover { border-color: var(--color-gold); }
 
-        /* 5. Loader [cite: 437] */
+        /* 5. Loader */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--color-charcoal);
@@ -139,7 +141,7 @@
 
         @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
 
-        /* Genji Bar Animation for Loader */
+        /* Genji Bar Animation */
         .genji-symbol { display: flex; gap: 8px; height: 40px; }
         .genji-bar { width: 4px; background: var(--color-gold); height: 100%; animation: grow 1.5s infinite ease-in-out; }
         .genji-bar:nth-child(2) { animation-delay: 0.1s; }
@@ -154,16 +156,30 @@
             padding-bottom: 56.25%; /* 16:9 */
             height: 0;
             width: 100%;
-            margin-top: 2rem;
+            margin-top: 1rem;
             border: 1px solid var(--color-kyara);
         }
         .video-container iframe {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
         }
 
+        /* Vendor List Styles */
+        .vendor-list {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin-top: 2rem;
+        }
+        .vendor-item {
+            border-bottom: 1px solid rgba(74, 59, 50, 0.3);
+            padding: 1.5rem 0;
+        }
+        .vendor-item:last-child { border-bottom: none; }
+        .vendor-name { font-size: 1.1rem; color: var(--color-gold); margin-bottom: 0.5rem; display: block; font-family: var(--font-serif); }
+        .vendor-note { font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem; }
+
         /* Specific Section Styles */
         .hero-title { font-size: clamp(2.5rem, 5vw, 5rem); color: var(--color-ash); margin-bottom: 1rem; text-align: center;}
-        .hero-subtitle { color: var(--color-gold); margin-bottom: 3rem; }
         
         .list-item {
             display: flex;
@@ -284,10 +300,12 @@
                 <p>We explored how wisteria symbolizes fleeting beauty, patterns become poetry, stories become scent, and remembrance becomes awakening.</p>
                 <p>Just as wisteria vines and Zen questions bend the mind into new shapes, the way of incense invites us to embrace the fleeting, the delicate, and the momentary. Every wisp of fragrance reminded us that beauty is not in what lasts, but in what is fully lived.</p>
 
-                <div class="video-container">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/lQ9fR_IjY8I?start=120" title="NPR Genji Performance" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div style="margin-top: 3rem; text-align: center;">
+                    <p class="font-serif italic" style="margin-bottom: 1rem;">Please enjoy this piece I created for NPR commemorating the 1000th anniversary of The Tale of Genji:</p>
+                    <div class="video-container">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/lQ9fR_IjY8I?start=120" title="NPR Genji Performance" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
                 </div>
-                <p class="text-center" style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.6;">NPR performance during the 1000th anniversary of The Tale of Genji</p>
             </div>
 
             <div class="gallery-grid">
@@ -308,26 +326,79 @@
         <section class="section">
             <div class="content-block text-center">
                 <h2 class="font-serif" style="color: var(--color-gold);">In Gratitude</h2>
-                <p>To The Village Tea Hut, thank you for creating a sanctuary where these traditions could unfold with grace.</p>
+                <p>To the Village Tea Hut, thank you for creating a sanctuary where these traditions unfolded with grace.</p>
                 <p>To everyone who attended, thank you for bringing sincerity, curiosity, and reverence. You transformed each gathering into something deeply meaningful.</p>
+                
                 <p style="font-size: 1.1rem; margin-top: 2rem;">
                     This weekend was more than a series of ceremonies.<br>
                     It was a shared journey, one of fragrance, tea, story, and spirit.
                 </p>
+                
                 <p class="italic text-gold" style="margin-top: 2rem;">
                     Until our paths cross again,<br>
                     may your breath be steady,<br>
                     your heart be clear,<br>
                     and your life carry the quiet beauty of incense rising.
                 </p>
+                
                 <div style="margin-top: 3rem;">
                     <strong>John Launius</strong><br>
-                    <span style="font-size: 0.9rem; opacity: 0.7;">Kōmoto, Founder of Shihan Wellness</span>
+                    <span style="font-size: 0.9rem; opacity: 0.7;">Kōmoto, Founder of Shihan Wellness</span><br>
+                    <a href="mailto:John@shihan-wellness.com" style="font-size: 0.9rem; margin-top: 0.5rem; display: inline-block;">John@shihan-wellness.com</a>
                 </div>
-                <div style="margin-top: 3rem; opacity: 0.5; font-size: 0.7rem; border-top: 1px solid var(--color-kyara); padding-top: 1rem;">
+
+                <div style="margin-top: 3rem; border-top: 1px solid rgba(193, 170, 103, 0.3); padding-top: 2rem;">
+                    <h4 class="font-serif text-gold" style="margin-bottom: 1rem;">Additional Reading</h4>
+                    <p style="font-size: 0.9rem;">Please enjoy "Fragrance Wellness - The Scent of Peak Performance":</p>
+                    <a href="https://www.linkedin.com/pulse/scent-peak-performance-john-launius/" target="_blank">Read Article on LinkedIn</a>
+                </div>
+
+                <div style="margin-top: 3rem; text-align: left;">
+                    <h4 class="font-serif text-center text-gold" style="margin-bottom: 2rem; font-size: 1.5rem;">Recommended Vendors & Artisans</h4>
+                    
+                    <ul class="vendor-list">
+                        <li class="vendor-item">
+                            <a href="http://www.yen-ology.com" class="vendor-name" target="_blank">Yen-ology</a>
+                            <div class="vendor-note">Proud sponsor of The Incense Journey™.</div>
+                            <div class="vendor-note text-gold">Receive 10% off when you mention Kōmoto, John Launius and Shihan Wellness.</div>
+                        </li>
+
+                        <li class="vendor-item">
+                            <a href="http://www.scents-of-earth.com" class="vendor-name" target="_blank">Scents of Earth</a>
+                            <div class="vendor-note text-gold">Use code <strong>L2025</strong> to receive a discount on your order.</div>
+                        </li>
+
+                        <li class="vendor-item">
+                            <a href="http://www.mermadearts.com" class="vendor-name" target="_blank">Mermade Arts</a>
+                            <div class="vendor-note">Mention Kōmoto, John Launius and Shihan Wellness in the comment section of the cart and they will include free samples in your order.</div>
+                        </li>
+
+                        <li class="vendor-item">
+                            <a href="http://www.Japanincense.com" class="vendor-name" target="_blank">Japan Incense</a>
+                            <div class="vendor-note">Mention Kōmoto, John Launius and Shihan Wellness and they will include free samples with your order.</div>
+                        </li>
+
+                        <li class="vendor-item">
+                            <span class="vendor-name">The Soul Place</span>
+                            <div class="vendor-note">For electric incense warmers and other items.</div>
+                            <div style="margin-top: 0.5rem; display: flex; gap: 1rem;">
+                                <a href="https://the-soul-place.square.site/product/classic-heater/R37ZA5XQP5NYP32DXCQ3FERK?cp=true&sa=false&sbp=false&q=true&fbclid=IwVERDUAONd_1leHRuA2FlbQIxMABzcnRjBmFwcF9pZAwzNTA2ODU1MzE3MjgAAR5Iz-HPWrS3avRSVv8Aow9R8KD06wOCKt0wpjm0C13pwA57LdBzGabHWg_9pQ_aem_iFaNL9Z6lmJB7tBnDEyY8Q" target="_blank" style="font-size: 0.9rem;">View Classic Heater &rarr;</a>
+                                <a href="https://the-soul-place.square.site/product/premium-heater/OIA7G2KWJI2TFURFYFA7QCWP?cp=true&sa=false&sbp=false&q=true&fbclid=IwVERDUAONeEdleHRuA2FlbQIxMABzcnRjBmFwcF9pZAwzNTA2ODU1MzE3MjgAAR5Iz-HPWrS3avRSVv8Aow9R8KD06wOCKt0wpjm0C13pwA57LdBzGabHWg_9pQ_aem_iFaNL9Z6lmJB7tBnDEyY8Q" target="_blank" style="font-size: 0.9rem;">View Premium Heater &rarr;</a>
+                            </div>
+                        </li>
+
+                        <li class="vendor-item">
+                            <a href="http://www.Apothecarysgarden.com" class="vendor-name" target="_blank">Apothecary's Garden</a>
+                            <div class="vendor-note">A Canadian website for premium and rare incense resins and products.</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 4rem; opacity: 0.5; font-size: 0.7rem; border-top: 1px solid var(--color-kyara); padding-top: 1rem;">
                     Website created by: Darrell Wright, Senior Student in The Way of Incense.
                 </div>
             </div>
+            
             <div class="gallery-grid" style="justify-content: center; display: flex;">
                  <img src="https://thinksql1.github.io/Weekend/Images/039.jpeg" class="gallery-img" style="max-width: 400px;" loading="lazy">
             </div>
@@ -338,7 +409,6 @@
         // --- 1. SCENE SETUP (Three.js) ---
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
-        // Fog for depth: Night/Void feel [cite: 493]
         scene.fog = new THREE.FogExp2(0x1A1A1A, 0.001);
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.z = 5;
@@ -348,17 +418,15 @@
         container.appendChild(renderer.domElement);
 
         // --- 2. SMOKE SYSTEM ---
-        // Using a generated texture approach to ensure no broken image links for the smoke
         const smokeParticles = [];
         const loader = new THREE.TextureLoader();
-        // Using a standard open source smoke texture
         const texture = loader.load('https://raw.githubusercontent.com/marcobiedermann/playground/master/three.js/smoke-particles/dist/img/smoke.png');
         const smokeGeo = new THREE.PlaneGeometry(300, 300);
         const smokeMat = new THREE.MeshLambertMaterial({
             map: texture,
             transparent: true,
             opacity: 0.05,
-            color: 0xEBEAE5, // Ash Color
+            color: 0xEBEAE5,
             depthWrite: false,
             blending: THREE.AdditiveBlending
         });
@@ -375,11 +443,10 @@
             smokeParticles.push(particle);
         }
 
-        // Lighting: The "Ember" [cite: 528]
         const light = new THREE.DirectionalLight(0xffffff, 0.5);
         light.position.set(0, 0, 1);
         scene.add(light);
-        const emberLight = new THREE.PointLight(0xC1AA67, 2, 50); // Sacra Gold
+        const emberLight = new THREE.PointLight(0xC1AA67, 2, 50); 
         scene.add(emberLight);
 
         // --- 3. INTERACTION ---
@@ -399,24 +466,21 @@
             const elapsed = clock.getElapsedTime();
             smokeParticles.forEach((p) => {
                 p.rotation.z += delta * 0.02;
-                // Gentle drift
                 p.position.x += Math.sin(elapsed * 0.1) * 0.01;
             });
             renderer.render(scene, camera);
         }
         animate();
 
-        // Window Resize Handle
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // --- 4. SCROLLYTELLING (GSAP) [cite: 239] ---
+        // --- 4. SCROLLYTELLING (GSAP) ---
         gsap.registerPlugin(ScrollTrigger);
 
-        // Animate content blocks fading in
         const blocks = document.querySelectorAll('.content-block');
         blocks.forEach((block) => {
             gsap.to(block, {
@@ -432,13 +496,12 @@
             });
         });
 
-        // Animate Images
         const images = document.querySelectorAll('.gallery-img');
         images.forEach((img) => {
             gsap.to(img, {
                 opacity: 1,
                 duration: 1,
-                delay: Math.random() * 0.5, // Random stagger
+                delay: Math.random() * 0.5,
                 ease: "power2.out",
                 scrollTrigger: {
                     trigger: img,
@@ -447,7 +510,7 @@
             });
         });
 
-        // --- 5. AUDIO (Tone.js) [cite: 147] ---
+        // --- 5. AUDIO (Tone.js) ---
         let isPlaying = false;
         const audioBtn = document.getElementById('audio-btn');
         const muteLine = document.getElementById('mute-line');
@@ -457,7 +520,6 @@
             if (!isPlaying) {
                 await Tone.start();
                 
-                // Wind (Brown Noise) [cite: 152]
                 const noise = new Tone.Noise("brown").start();
                 const filter = new Tone.AutoFilter({
                     frequency: "0.1m",
@@ -467,7 +529,6 @@
                 noise.connect(filter);
                 noise.volume.value = -20;
 
-                // Bell (Pentatonic) [cite: 154]
                 const poly = new Tone.PolySynth(Tone.Synth, {
                     oscillator: { type: "sine" },
                     envelope: { attack: 0.01, decay: 1, sustain: 0.1, release: 3 }
@@ -475,7 +536,6 @@
                 poly.volume.value = -12;
 
                 const loop = new Tone.Loop(time => {
-                    // Hirajoshi Scale-ish
                     const notes = ["A4", "B4", "C5", "E5", "F5"];
                     if (Math.random() > 0.8) {
                         const note = notes[Math.floor(Math.random() * notes.length)];
@@ -502,7 +562,6 @@
             setTimeout(() => {
                 loader.style.opacity = 0;
                 setTimeout(() => loader.remove(), 1500);
-                // Trigger Hero Animation
                 gsap.from('.hero-title', { y: 30, opacity: 0, duration: 2, delay: 0.5 });
             }, 2000);
         };
