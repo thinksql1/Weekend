@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>The Incense Journey | Weekend Recap</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script>
+
+    <style>
+        /* --- DESIGN TOKENS: Ash & Ember System --- */
+        :root {
+            --color-ash: #EBEAE5;       /* Day Background / Text */
+            --color-charcoal: #1A1A1A; /* Night Background / Text */
+            --color-kyara: #4A3B32;    /* Borders / Accents */
+            --color-gold: #C1AA67;     /* Highlights / Sacred Elements */
+            
+            --font-serif: 'Georgia', 'Times New Roman', serif;
+            --font-sans: 'Helvetica Neue', 'Arial', sans-serif;
+        }
+
+        /* Base Reset */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-charcoal);
+            color: var(--color-ash);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: normal; margin: 0; }
+        p { line-height: 1.8; opacity: 0.9; max-width: 700px; margin: 0 auto 1.5rem auto; }
+        a { color: var(--color-gold); text-decoration: none; transition: opacity 0.3s; }
+        a:hover { opacity: 0.7; text-decoration: underline; }
+
+        /* Typography Utils */
+        .text-gold { color: var(--color-gold); }
+        .text-center { text-align: center; }
+        .font-serif { font-family: var(--font-serif); }
+        .uppercase { text-transform: uppercase; letter-spacing: 0.15em; }
+        .italic { font-style: italic; }
+
+        /* --- LAYOUT & COMPONENTS --- */
+
+        /* 1. The Smoke Canvas (Fixed Background) */
+        #canvas-container {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            pointer-events: all; 
+        }
+
+        /* 2. Scrollytelling Sections */
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-block {
+            background: rgba(26, 26, 26, 0.6); 
+            backdrop-filter: blur(8px);
+            padding: 3rem;
+            border: 1px solid rgba(74, 59, 50, 0.5); 
+            border-radius: 4px;
+            margin: 2rem 0;
+            max-width: 800px;
+            width: 100%;
+            opacity: 0; /* Animated by GSAP */
+            transform: translateY(20px);
+            box-sizing: border-box;
+        }
+
+        /* 3. Image Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 3rem auto;
+            /* Ensures removed images don't leave gaps */
+            grid-auto-flow: dense; 
+        }
+
+        /* FIX 2: Dynamic 3-Image Limiter for Part 3 */
+        /* This hides any image after the 3rd one. If an image is broken and removed,
+           the next hidden one shifts up and becomes visible automatically. */
+        #gallery-part3 .gallery-img:nth-of-type(n+4) {
+            display: none;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: auto;
+            border-radius: 2px;
+            filter: grayscale(20%) sepia(10%);
+            transition: all 0.5s ease;
+            opacity: 0; 
+            border: 1px solid transparent;
+            background: #000; /* Placeholder color while loading */
+        }
+
+        .gallery-img:hover {
+            filter: grayscale(0%) sepia(0%);
+            border-color: var(--color-gold);
+            transform: scale(1.01);
+        }
+
+        /* Load More Button */
+        .load-more-btn {
+            border: 1px solid var(--color-gold);
+            background: transparent;
+            color: var(--color-gold);
+            padding: 1rem 2rem;
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .load-more-btn:hover {
+            background: var(--color-gold);
+            color: var(--color-charcoal);
+        }
+        .load-more-btn:disabled {
+            opacity: 0.3;
+            cursor: default;
+            border-color: var(--color-ash);
+        }
+
+        /* 4. Audio Toggle */
+        #audio-btn {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            z-index: 50;
+            cursor: pointer;
+            width: 50px; height: 50px;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(235, 234, 229, 0.3);
+            border-radius: 50%;
+            background: rgba(26, 26, 26, 0.8);
+            transition: border-color 0.3s;
+        }
+        #audio-btn:hover { border-color: var(--color-gold); }
+
+        /* 5. Loader */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--color-charcoal);
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 100;
+            transition: opacity 1.5s ease;
+        }
+        
+        .loading-text {
+            margin-top: 1rem;
+            font-family: var(--font-serif);
+            color: var(--color-gold);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+
+        /* Genji Bar Animation */
+        .genji-symbol { display: flex; gap: 8px; height: 40px; }
+        .genji-bar { width: 4px; background: var(--color-gold); height: 100%; animation: grow 1.5s infinite ease-in-out; }
+        .genji-bar:nth-child(2) { animation-delay: 0.1s; }
+        .genji-bar:nth-child(3) { animation-delay: 0.2s; }
+        .genji-bar:nth-child(4) { animation-delay: 0.3s; }
+        .genji-bar:nth-child(5) { animation-delay: 0.4s; }
+        @keyframes grow { 0%, 100% { transform: scaleY(0.5); } 50% { transform: scaleY(1); } }
+
+        /* YouTube Embed */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            width: 100%;
+            margin-top: 1rem;
+            border: 1px solid var(--color-kyara);
+            background: #000;
+        }
+        .video-container iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        }
+
+        /* Fallback Button */
+        .fallback-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--color-gold);
+            color: var(--color-gold);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: rgba(0,0,0,0.3);
+        }
+        .fallback-btn:hover {
+            background: var(--color-gold);
+            color: var(--color-charcoal);
+            text-decoration: none;
+        }
+
+        /* Vendor List Styles */
+        .vendor-list {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin-top: 2rem;
+        }
+        .vendor-item {
+            border-bottom: 1px solid rgba(74, 59, 50, 0.3);
+            padding: 1.5rem 0;
+        }
+        .vendor-item:last-child { border-bottom: none; }
+        .vendor-name { font-size: 1.1rem; color: var(--color-gold); margin-bottom: 0.5rem; display: block; font-family: var(--font-serif); }
+        .vendor-note { font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem; }
+
+        /* Specific Section Styles */
+        .hero-title { font-size: clamp(2.5rem, 5vw, 5rem); color: var(--color-ash); margin-bottom: 1rem; text-align: center;}
+        
+        .list-item {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 0.8rem;
+        }
+        .list-bullet { color: var(--color-gold); margin-right: 10px; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="genji-symbol">
+            <div class="genji-bar"></div><div class="genji-bar"></div><div class="genji-bar"></div><div class="genji-bar"></div><div class="genji-bar"></div>
+        </div>
+        <div class="loading-text uppercase" style="font-size: 0.8rem; margin-top: 1rem;">Igniting the Coal...</div>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <div id="audio-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C1AA67" stroke-width="1.5">
+            <path d="M11 5L6 9H2V15H6L11 19V5Z" />
+            <path d="M19.07 4.93L4.93 19.07" id="mute-line" />
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" class="sound-wave" style="opacity:0;" />
+        </svg>
+    </div>
+
+    <main>
+        <section class="section">
+            <div class="content-block text-center" style="background: transparent; border: none;">
+                <div class="uppercase text-gold" style="letter-spacing: 0.3em; margin-bottom: 1rem;">The Village Tea Hut • Nov 14-16, 2025</div>
+                <h1 class="hero-title">A Weekend of Fragrance,<br>Stillness, and Awakening</h1>
+                <p class="font-serif italic" style="font-size: 1.2rem; color: var(--color-ash);">
+                    "In tea, we taste impermanence.<br>In incense, we breathe it."
+                </p>
+                <div style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.6;">SCROLL TO BEGIN</div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="content-block">
+                <p>To everyone who joined us this weekend at The Village Tea Hut in Newport Beach, thank you. What we experienced together over these three days was nothing less than extraordinary, a weaving of tea, fragrance, story, and presence that will stay with us for a very long time.</p>
+                <p>We gathered not merely to burn incense or sip tea, but to listen, to feel, and to awaken that quiet inner place where clarity, beauty, and meaning permeate every breath. Each ceremony carried its own spirit, its own teaching, and each of you brought the openness that allowed these traditions to come alive.</p>
+            </div>
+            
+            <div id="gallery-intro" class="gallery-grid"></div>
+        </section>
+
+        <section class="section">
+            <div class="uppercase text-gold" style="letter-spacing: 0.2em; margin-bottom: 1rem;">Part I</div>
+            <h2 class="font-serif text-center" style="font-size: 2.5rem; margin-bottom: 2rem;">The Incense Journey™</h2>
+            
+            <div class="content-block">
+                <p>Our weekend began with The Incense Journey™, a contemplative progression through Borneol Camphor, Old Mountain Sandalwood, Frankincense, Galbanum, Kyphi, and Kyara. Together we stepped into stillness, listening to the subtle ways fragrance cools restlessness, grounds the heart, bridges heaven and earth, renews the spirit, carries memory, and reveals harmony.</p>
+                
+                <h3 class="font-serif text-gold" style="margin-top: 2rem; margin-bottom: 1rem;">The Doorways of Scent</h3>
+                <div class="list-item"><span class="list-bullet">✦</span><span><strong>Borneol Camphor</strong> cleared the mind.</span></div>
+                <div class="list-item"><span class="list-bullet">✦</span><span><strong>Old Mountain Sandalwood</strong> steadied us in warmth and quiet.</span></div>
+                <div class="list-item"><span class="list-bullet">✦</span><span><strong>Frankincense</strong> lifted prayer and returned peace.</span></div>
+                <div class="list-item"><span class="list-bullet">✦</span><span><strong>Galbanum</strong> reminded us of renewal after surrender.</span></div>
+                <div class="list-item"><span class="list-bullet">✦</span><span><strong>Kyphi</strong> carried the sweetness of an ancient offering.</span></div>
+                <div class="list-item"><span class="list-bullet">✦</span><span><strong>Kyara</strong> revealed the elegance of enlightenment in a single breath.</span></div>
+            </div>
+
+            <div id="gallery-part1" class="gallery-grid"></div>
+        </section>
+
+        <section class="section">
+            <div class="uppercase text-gold" style="letter-spacing: 0.2em; margin-bottom: 1rem;">Part II</div>
+            <h2 class="font-serif text-center" style="font-size: 2.5rem; margin-bottom: 2rem;">Rikkoku: The Six Countries</h2>
+
+            <div class="content-block">
+                <p>Our next gathering invited everyone into the classical Japanese art of Rikkoku-kō. In the sanctuary created by The Village Tea Hut, we explored six distinct voices of aloeswood — Kyara, Rakoku, Manaban, Manaka, Sasora, and Sumotara.</p>
+                <p>Each wood spoke with its own character: the dignity of nobles, the sharp clarity of warriors, the sweetness of common earth, the shifting beauty of emotion, the serenity of monks, and the masked fragrance of those who are not what they seem.</p>
+                <p class="italic text-gold text-center" style="margin-top: 2rem;">"When we truly listen, scent becomes wisdom,<br>and the moment becomes eternity."</p>
+            </div>
+
+            <div id="gallery-part2" class="gallery-grid"></div>
+        </section>
+
+        <section class="section">
+            <div class="uppercase text-gold" style="letter-spacing: 0.2em; margin-bottom: 1rem;">Part III</div>
+            <h2 class="font-serif text-center" style="font-size: 2.5rem; margin-bottom: 2rem;">Genji-kō</h2>
+
+            <div class="content-block">
+                <p>Our final ceremony brought us into the refined world of The Tale of Genji and the sensory poetry of the Genji-mon patterns. In this space of quiet reflection and shared awareness, we traced the lineage of fragrance through literature, symbolism, impermanence, and emotional depth.</p>
+                <p>We explored how wisteria symbolizes fleeting beauty, patterns become poetry, stories become scent, and remembrance becomes awakening.</p>
+                <p>Just as wisteria vines and Zen questions bend the mind into new shapes, the way of incense invites us to embrace the fleeting, the delicate, and the momentary. Every wisp of fragrance reminded us that beauty is not in what lasts, but in what is fully lived.</p>
+
+                <div style="margin-top: 3rem; text-align: center;">
+                    <p class="font-serif italic" style="margin-bottom: 1rem;">Please enjoy this piece I created for NPR commemorating the 1000th anniversary of The Tale of Genji:</p>
+                    
+                    <div class="video-container">
+                        <iframe 
+                            width="560" 
+                            height="315" 
+                            src="https://www.youtube.com/embed/lQ9fR_IjY8I?start=120" 
+                            title="The Tale of Genji Performance" 
+                            frameborder="0" 
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+
+                    <div style="margin-top: 1rem;">
+                        <a href="https://www.youtube.com/watch?v=lQ9fR_IjY8I&t=120s" target="_blank" class="fallback-btn">
+                            Watch on YouTube
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gallery-part3" class="gallery-grid"></div>
+        </section>
+
+        <section class="section">
+            <div class="uppercase text-gold" style="letter-spacing: 0.2em; margin-bottom: 1rem;">The Archive</div>
+            <h2 class="font-serif text-center" style="font-size: 2rem; margin-bottom: 2rem;">Visual Journey</h2>
+            <p class="text-center" style="font-size: 0.9rem;">Explore the complete collection of moments from the weekend.</p>
+            
+            <div id="gallery-archive" class="gallery-grid"></div>
+            
+            <button id="load-more" class="load-more-btn">Load More Moments</button>
+        </section>
+
+        <section class="section">
+            <div class="content-block text-center">
+                <h2 class="font-serif" style="color: var(--color-gold);">In Gratitude</h2>
+                <p>To the Village Tea Hut, thank you for creating a sanctuary where these traditions unfolded with grace.</p>
+                <p>To everyone who attended, thank you for bringing sincerity, curiosity, and reverence. You transformed each gathering into something deeply meaningful.</p>
+                
+                <p style="font-size: 1.1rem; margin-top: 2rem;">
+                    This weekend was more than a series of ceremonies.<br>
+                    It was a shared journey, one of fragrance, tea, story, and spirit.
+                </p>
+                
+                <p class="italic text-gold" style="margin-top: 2rem;">
+                    Until our paths cross again,<br>
+                    may your breath be steady,<br>
+                    your heart be clear,<br>
+                    and your life carry the quiet beauty of incense rising.
+                </p>
+                
+                <div style="margin-top: 3rem;">
+                    <strong>John Launius</strong><br>
+                    <span style="font-size: 0.9rem; opacity: 0.7;">Kōmoto, Founder of Shihan Wellness</span><br>
+                    <div style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        Contact me directly: <a href="mailto:John@shihan-wellness.com">John@shihan-wellness.com</a>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem; border-top: 1px solid rgba(193, 170, 103, 0.3); padding-top: 2rem;">
+                    <h4 class="font-serif text-gold" style="margin-bottom: 1rem;">Additional Reading</h4>
+                    <p style="font-size: 0.9rem;">Please enjoy "Fragrance Wellness - The Scent of Peak Performance":</p>
+                    <a href="https://www.linkedin.com/pulse/scent-peak-performance-john-launius/" target="_blank">Read Article on LinkedIn</a>
+                </div>
+
+                <div style="margin-top: 3rem; text-align: left;">
+                    <h4 class="font-serif text-center text-gold" style="margin-bottom: 2rem; font-size: 1.5rem;">Recommended Vendors & Artisans</h4>
+                    
+                    <ul class="vendor-list">
+                        <li class="vendor-item">
+                            <a href="http://www.yen-ology.com" class="vendor-name" target="_blank">Yen-ology</a>
+                            <div class="vendor-note">Proud sponsor of The Incense Journey™.</div>
+                            <div class="vendor-note text-gold">Receive 10% off when you mention Kōmoto, John Launius and Shihan Wellness.</div>
+                        </li>
+
+                        <li class="vendor-item">
+                            <a href="http://www.scents-of-earth.com" class="vendor-name" target="_blank">Scents of Earth</a>
+                            <div class="vendor-note text-gold">Use code <strong>L2025</strong> to receive a discount on your order.</div>
+                        </li>
+
+                        <li class="vendor-item">
+                            <a href="http://www.mermadearts.com" class="vendor-name" target="_blank">Mermade Arts</a>
+                            <div class="vendor-note">Mention Kōmoto, John Launius and Shihan Wellness in the comment section of the cart and they will include free samples in your order.</div>
+                        </li>
+
+                        <li class="vendor-item">
+                            <a href="http://www.Japanincense.com" class="vendor-name" target="_blank">Japan Incense</a>
+                            <div class="vendor-note">Mention Kōmoto, John Launius and Shihan Wellness and they will include free samples with your order.</div>
+                        </li>
+
+                        <li class="vendor-item">
+                            <span class="vendor-name">The Soul Place</span>
+                            <div class="vendor-note">For electric incense warmers and other items.</div>
+                            <div style="margin-top: 0.5rem; display: flex; gap: 1rem;">
+                                <a href="https://the-soul-place.square.site/product/classic-heater/R37ZA5XQP5NYP32DXCQ3FERK?cp=true&sa=false&sbp=false&q=true&fbclid=IwVERDUAONd_1leHRuA2FlbQIxMABzcnRjBmFwcF9pZAwzNTA2ODU1MzE3MjgAAR5Iz-HPWrS3avRSVv8Aow9R8KD06wOCKt0wpjm0C13pwA57LdBzGabHWg_9pQ_aem_iFaNL9Z6lmJB7tBnDEyY8Q" target="_blank" style="font-size: 0.9rem;">View Classic Heater &rarr;</a>
+                                <a href="https://the-soul-place.square.site/product/premium-heater/OIA7G2KWJI2TFURFYFA7QCWP?cp=true&sa=false&sbp=false&q=true&fbclid=IwVERDUAONeEdleHRuA2FlbQIxMABzcnRjBmFwcF9pZAwzNTA2ODU1MzE3MjgAAR5Iz-HPWrS3avRSVv8Aow9R8KD06wOCKt0wpjm0C13pwA57LdBzGabHWg_9pQ_aem_iFaNL9Z6lmJB7tBnDEyY8Q" target="_blank" style="font-size: 0.9rem;">View Premium Heater &rarr;</a>
+                            </div>
+                        </li>
+
+                        <li class="vendor-item">
+                            <a href="http://www.Apothecarysgarden.com" class="vendor-name" target="_blank">Apothecary's Garden</a>
+                            <div class="vendor-note">A Canadian website for premium and rare incense resins and products.</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 4rem; opacity: 0.5; font-size: 0.7rem; border-top: 1px solid var(--color-kyara); padding-top: 1rem;">
+                    Website created by: Darrell Wright, Senior Student in The Way of Incense.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // --- 0. IMAGE DATA MANAGEMENT (Performance Optimization) ---
+        // Programmatically generate 91 image URLs based on the new pattern
+        const baseUrl = "https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/Images/";
+        const totalImages = 91;
+        const allImages = [];
+        
+        for (let i = 1; i <= totalImages; i++) {
+            // Formats number to 3 digits (001, 002... 091)
+            const num = i.toString().padStart(3, '0');
+            allImages.push(`${baseUrl}${num}.jpg`);
+        }
+
+        // Image Distribution Configuration
+        const distribution = {
+            intro: allImages.slice(0, 6),    // First 6 images
+            part1: allImages.slice(6, 12),   // Next 6
+            part2: allImages.slice(12, 18),  // Next 6
+            
+            // FIX 2: Increased buffer size for part3.
+            // We load 14 images (18 to 32) but CSS hides everything after the 3rd valid one.
+            part3: allImages.slice(18, 32),  
+            
+            archive: allImages.slice(32)     // The rest
+        };
+
+        // Helper to render images to a container
+        function renderImages(urls, containerId, animate = true) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            urls.forEach((url, index) => {
+                const img = document.createElement('img');
+                
+                // ERROR HANDLING:
+                // We define onerror BEFORE setting src to ensure it catches early failures.
+                // This script removes the broken image entirely from the DOM, allowing grid to reflow.
+                img.onerror = function() {
+                    this.remove(); 
+                };
+
+                img.src = url;
+                img.className = 'gallery-img';
+                img.loading = 'lazy'; 
+                img.alt = 'Ceremony Moment';
+
+                container.appendChild(img);
+
+                // Animate entrance
+                if (animate) {
+                    gsap.to(img, {
+                        opacity: 1,
+                        duration: 1,
+                        delay: index * 0.1, // Stagger effect
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: img,
+                            start: "top 90%"
+                        }
+                    });
+                }
+            });
+        }
+
+        // --- 1. ARCHIVE LOAD LOGIC ---
+        let archiveIndex = 0;
+        const batchSize = 12; // Load 12 images at a time to prevent crashing
+        const loadBtn = document.getElementById('load-more');
+
+        loadBtn.addEventListener('click', () => {
+            const nextBatch = distribution.archive.slice(archiveIndex, archiveIndex + batchSize);
+            
+            if (nextBatch.length > 0) {
+                renderImages(nextBatch, 'gallery-archive', true);
+                archiveIndex += batchSize;
+            }
+
+            // Hide button if no more images
+            if (archiveIndex >= distribution.archive.length) {
+                loadBtn.style.display = 'none';
+            } else {
+                loadBtn.textContent = `Load More Moments (${distribution.archive.length - archiveIndex} remaining)`;
+            }
+        });
+
+        // --- 2. SCENE SETUP (Three.js) ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x1A1A1A, 0.001);
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        // --- 3. SMOKE SYSTEM ---
+        const smokeParticles = [];
+        const loader = new THREE.TextureLoader();
+        const texture = loader.load('https://raw.githubusercontent.com/marcobiedermann/playground/master/three.js/smoke-particles/dist/img/smoke.png');
+        const smokeGeo = new THREE.PlaneGeometry(300, 300);
+        const smokeMat = new THREE.MeshLambertMaterial({
+            map: texture,
+            transparent: true,
+            opacity: 0.05,
+            color: 0xEBEAE5,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending
+        });
+
+        for (let p = 0; p < 40; p++) {
+            const particle = new THREE.Mesh(smokeGeo, smokeMat);
+            particle.position.set(
+                Math.random() * 15 - 7.5,
+                Math.random() * 10 - 5,
+                Math.random() * 100 - 100
+            );
+            particle.rotation.z = Math.random() * 360;
+            scene.add(particle);
+            smokeParticles.push(particle);
+        }
+
+        const light = new THREE.DirectionalLight(0xffffff, 0.5);
+        light.position.set(0, 0, 1);
+        scene.add(light);
+        const emberLight = new THREE.PointLight(0xC1AA67, 2, 50); 
+        scene.add(emberLight);
+
+        // --- 4. INTERACTION ---
+        const clock = new THREE.Clock();
+        document.addEventListener('mousemove', (e) => {
+            let mouseX = (e.clientX - window.innerWidth / 2) / 100;
+            let mouseY = (e.clientY - window.innerHeight / 2) / 100;
+            gsap.to(emberLight.position, {
+                x: mouseX * 15, y: -(mouseY * 15), z: 10,
+                duration: 1.5, ease: "power2.out"
+            });
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const delta = clock.getDelta();
+            const elapsed = clock.getElapsedTime();
+            smokeParticles.forEach((p) => {
+                p.rotation.z += delta * 0.02;
+                p.position.x += Math.sin(elapsed * 0.1) * 0.01;
+            });
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // --- 5. SCROLLYTELLING (GSAP) ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        const blocks = document.querySelectorAll('.content-block');
+        blocks.forEach((block) => {
+            gsap.to(block, {
+                opacity: 1,
+                y: 0,
+                duration: 1.5,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: block,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // --- 6. AUDIO (Tone.js) ---
+        let isPlaying = false;
+        const audioBtn = document.getElementById('audio-btn');
+        const muteLine = document.getElementById('mute-line');
+        const soundWave = document.querySelector('.sound-wave');
+
+        audioBtn.addEventListener('click', async () => {
+            if (!isPlaying) {
+                await Tone.start();
+                
+                const noise = new Tone.Noise("brown").start();
+                const filter = new Tone.AutoFilter({
+                    frequency: "0.1m",
+                    baseFrequency: 200,
+                    octaves: 2.6
+                }).toDestination().start();
+                noise.connect(filter);
+                noise.volume.value = -20;
+
+                const poly = new Tone.PolySynth(Tone.Synth, {
+                    oscillator: { type: "sine" },
+                    envelope: { attack: 0.01, decay: 1, sustain: 0.1, release: 3 }
+                }).toDestination();
+                poly.volume.value = -12;
+
+                const loop = new Tone.Loop(time => {
+                    const notes = ["A4", "B4", "C5", "E5", "F5"];
+                    if (Math.random() > 0.8) {
+                        const note = notes[Math.floor(Math.random() * notes.length)];
+                        poly.triggerAttackRelease(note, "2n", time);
+                    }
+                }, "2n").start(0);
+                
+                Tone.Transport.start();
+                
+                muteLine.style.display = "none";
+                soundWave.style.opacity = 1;
+                isPlaying = true;
+            } else {
+                Tone.Transport.stop();
+                muteLine.style.display = "block";
+                soundWave.style.opacity = 0;
+                isPlaying = false;
+            }
+        });
+
+        // --- 7. INIT ---
+        window.onload = () => {
+            const loader = document.getElementById('loader');
+            
+            // Render the initial sections immediately
+            renderImages(distribution.intro, 'gallery-intro');
+            renderImages(distribution.part1, 'gallery-part1');
+            renderImages(distribution.part2, 'gallery-part2');
+            renderImages(distribution.part3, 'gallery-part3');
+
+            setTimeout(() => {
+                loader.style.opacity = 0;
+                setTimeout(() => loader.remove(), 1500);
+                gsap.from('.hero-title', { y: 30, opacity: 0, duration: 2, delay: 0.5 });
+            }, 2000);
+        };
+    </script>
+</body>
+</html>
