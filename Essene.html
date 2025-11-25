@@ -11,6 +11,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
+        // Force page to top on reload
+        if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        } else {
+            window.onbeforeunload = function () {
+                window.scrollTo(0, 0);
+            }
+        }
+        
         tailwind.config = {
             theme: {
                 extend: {
@@ -125,7 +134,7 @@
                 </div>
             </div>
             <div class="order-1 md:order-2 img-zoom-container rounded-lg overflow-hidden shadow-2xl shadow-black/50">
-                <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/005.jpg" alt="Incense Presentation" class="w-full h-auto img-zoom object-cover aspect-[4/5]">
+                <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/005.jpg" alt="Incense Presentation" class="w-full h-auto img-zoom object-cover aspect-[4/5]" onerror="this.style.display='none'">
             </div>
         </div>
     </section>
@@ -137,7 +146,7 @@
         <section class="py-20 border-b border-white/5">
             <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-8 items-center">
                 <div class="md:col-span-5 img-zoom-container rounded shadow-lg">
-                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/002.jpg" alt="Frankincense Neglecta" class="w-full h-80 object-cover img-zoom">
+                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/002.jpg" alt="Frankincense Neglecta" class="w-full h-80 object-cover img-zoom" onerror="this.style.display='none'">
                 </div>
                 <div class="md:col-span-7">
                     <h3 class="font-serif text-3xl text-incense-gold mb-2">Frankincense (Boswellia neglecta)</h3>
@@ -162,7 +171,7 @@
                     </blockquote>
                 </div>
                 <div class="md:col-span-5 order-1 md:order-2 img-zoom-container rounded shadow-lg">
-                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/003.jpg" alt="Frankincense Sacra" class="w-full h-80 object-cover img-zoom">
+                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/003.jpg" alt="Frankincense Sacra" class="w-full h-80 object-cover img-zoom" onerror="this.style.display='none'">
                 </div>
             </div>
         </section>
@@ -171,7 +180,7 @@
         <section class="py-20 border-b border-white/5 bg-incense-stone/50">
             <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-8 items-center">
                 <div class="md:col-span-5 img-zoom-container rounded shadow-lg">
-                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/004.jpg" alt="Myrrh Socotra" class="w-full h-80 object-cover img-zoom">
+                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/004.jpg" alt="Myrrh Socotra" class="w-full h-80 object-cover img-zoom" onerror="this.style.display='none'">
                 </div>
                 <div class="md:col-span-7">
                     <h3 class="font-serif text-3xl text-incense-gold mb-2">Myrrh (Commiphora kua)</h3>
@@ -196,7 +205,7 @@
                     </blockquote>
                 </div>
                 <div class="md:col-span-5 order-1 md:order-2 img-zoom-container rounded shadow-lg">
-                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/011.jpg" alt="Galbanum" class="w-full h-80 object-cover img-zoom">
+                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/011.jpg" alt="Galbanum" class="w-full h-80 object-cover img-zoom" onerror="this.style.display='none'">
                 </div>
             </div>
         </section>
@@ -205,7 +214,7 @@
         <section class="py-20 border-b border-white/5 bg-incense-stone/50">
              <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-8 items-center">
                 <div class="md:col-span-5 img-zoom-container rounded shadow-lg">
-                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/006.jpg" alt="Sweet Myrrh" class="w-full h-80 object-cover img-zoom">
+                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/006.jpg" alt="Sweet Myrrh" class="w-full h-80 object-cover img-zoom" onerror="this.style.display='none'">
                 </div>
                 <div class="md:col-span-7">
                     <h3 class="font-serif text-3xl text-incense-gold mb-2">Sweet Myrrh / Opoponax</h3>
@@ -230,7 +239,7 @@
                     </blockquote>
                 </div>
                 <div class="md:col-span-5 order-1 md:order-2 img-zoom-container rounded shadow-lg">
-                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/007.jpg" alt="Frankincense Carteri" class="w-full h-80 object-cover img-zoom">
+                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/007.jpg" alt="Frankincense Carteri" class="w-full h-80 object-cover img-zoom" onerror="this.style.display='none'">
                 </div>
             </div>
         </section>
@@ -239,7 +248,7 @@
         <section class="py-20 border-b border-white/5 bg-incense-stone/50">
              <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-8 items-center">
                 <div class="md:col-span-5 img-zoom-container rounded shadow-lg">
-                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/008.jpg" alt="Sandalwood" class="w-full h-80 object-cover img-zoom">
+                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/008.jpg" alt="Sandalwood" class="w-full h-80 object-cover img-zoom" onerror="this.style.display='none'">
                 </div>
                 <div class="md:col-span-7">
                     <h3 class="font-serif text-3xl text-incense-gold mb-2">Sandalwood (Santalum album)</h3>
@@ -264,7 +273,7 @@
                     </blockquote>
                 </div>
                 <div class="md:col-span-5 order-1 md:order-2 img-zoom-container rounded shadow-lg">
-                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/009.jpg" alt="Kyphi" class="w-full h-80 object-cover img-zoom">
+                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/009.jpg" alt="Kyphi" class="w-full h-80 object-cover img-zoom" onerror="this.style.display='none'">
                 </div>
             </div>
         </section>
@@ -328,7 +337,7 @@
                 <div class="pt-4">
                     <p class="font-serif text-lg text-white mb-2">Additional Reading</p>
                     <p class="text-sm text-gray-400 mb-2">Please enjoy "Fragrance Wellness - The Scent of Peak Performance":</p>
-                    <a href="#" class="inline-flex items-center text-incense-gold hover:text-white transition">
+                    <a href="https://www.linkedin.com/pulse/scent-peak-performance-john-launius/" target="_blank" class="inline-flex items-center text-incense-gold hover:text-white transition">
                         Read Article on LinkedIn <i class="fa-solid fa-arrow-up-right-from-square ml-2 text-xs"></i>
                     </a>
                 </div>
@@ -382,6 +391,10 @@
     </div>
 
     <script>
+        window.onload = function() {
+            window.scrollTo(0, 0);
+        }
+
         function openModal(element) {
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImg');
