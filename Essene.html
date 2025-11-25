@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Essene Incense Journey | Event Recap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'incense-dark': '#1a1818',
+                        'incense-stone': '#2d2a2a',
+                        'incense-gold': '#d4af37',
+                        'incense-gold-light': '#f3e5ab',
+                        'incense-text': '#e5e5e5',
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Lato', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1818; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4af37; 
+            border-radius: 4px;
+        }
+
+        /* Animations */
+        .fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-500 { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Image hover effects */
+        .img-zoom-container {
+            overflow: hidden;
+        }
+        .img-zoom {
+            transition: transform 0.7s ease;
+        }
+        .img-zoom-container:hover .img-zoom {
+            transform: scale(1.05);
+        }
+
+        /* Parallax Utilities */
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="bg-incense-dark text-incense-text font-sans antialiased selection:bg-incense-gold selection:text-incense-dark">
+
+    <!-- HERO SECTION -->
+    <header class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/001.jpg" alt="Incense Smoke" class="w-full h-full object-cover opacity-60">
+            <div class="absolute inset-0 bg-gradient-to-b from-incense-dark/40 via-incense-dark/20 to-incense-dark"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto fade-in-up">
+            <p class="text-incense-gold tracking-[0.3em] text-sm md:text-base mb-4 uppercase font-semibold">Soul Support Group Limited Special Event</p>
+            <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl text-white mb-6 drop-shadow-lg">The Essene<br><span class="text-incense-gold">Incense Journey</span></h1>
+            
+            <div class="space-y-4 text-incense-gold-light text-sm md:text-base font-light tracking-wide delay-300 fade-in-up">
+                <p>Presented by <a href="https://www.matrix-hypnosis.com/" target="_blank" class="hover:text-incense-gold underline decoration-incense-gold/30 underline-offset-4 transition">Matrix Hypnosis & Scott Koeneman</a> <br class="md:hidden"> & <a href="https://theqhhtexperience.com/" target="_blank" class="hover:text-incense-gold underline decoration-incense-gold/30 underline-offset-4 transition">The QHHT Experience with Stefanie Staab</a></p>
+                <p>Hosted at: <a href="http://www.lifetime-media.com" target="_blank" class="hover:text-incense-gold underline decoration-incense-gold/30 underline-offset-4 transition">Lifetime Media</a></p>
+            </div>
+            
+            <div class="mt-12 delay-500 fade-in-up">
+                <a href="#journey" class="border border-incense-gold text-incense-gold hover:bg-incense-gold hover:text-incense-dark px-8 py-3 rounded-sm transition duration-300 uppercase tracking-widest text-xs font-bold">Begin the Journey</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- INTRO SECTION -->
+    <section id="journey" class="py-20 md:py-32 px-6 max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="order-2 md:order-1 space-y-6">
+                <h2 class="font-serif text-3xl md:text-4xl text-incense-gold mb-4">The Essenes & <br>Fragrances of Purity</h2>
+                <h3 class="text-xl text-white font-light border-l-2 border-incense-gold pl-4">A journey of fragrances presented by <span class="font-semibold">Kōmoto, John Launius</span>, Founder of <a href="http://www.shihan-wellness.com" target="_blank" class="text-incense-gold hover:underline">Shihan Wellness</a></h3>
+                
+                <p class="text-gray-300 leading-relaxed">
+                    The Essenes were a disciplined Jewish sect from the 2nd century BCE to the 1st century CE, known for purification, communal living, prayerful meditation, and strict adherence to sacred law. 
+                </p>
+                <p class="text-gray-300 leading-relaxed">
+                    Incense served as a bridge between body, soul, and the divine. It purified, elevated, and prepared the practitioner for spiritual clarity.
+                </p>
+                
+                <div class="bg-incense-stone p-6 rounded-lg mt-6 border border-incense-gold/20">
+                    <h4 class="font-serif text-incense-gold mb-2">The Essene Use of Incense</h4>
+                    <p class="text-sm italic text-gray-400">"Incense created sacred atmosphere, clarified intention, cleansed the spirit, and aligned the community with divine presence. Through fragrance, they cultivated purity, inner refinement, and spiritual vigilance."</p>
+                </div>
+            </div>
+            <div class="order-1 md:order-2 img-zoom-container rounded-lg overflow-hidden shadow-2xl shadow-black/50">
+                <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/005.jpg" alt="Incense Presentation" class="w-full h-auto img-zoom object-cover aspect-[4/5]">
+            </div>
+        </div>
+    </section>
+
+    <!-- RESIN JOURNEY (Editorial Layout) -->
+    <div class="bg-incense-stone/30">
+        
+        <!-- Frankincense (Neglecta) -->
+        <section class="py-20 border-b border-white/5">
+            <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-5 img-zoom-container rounded shadow-lg">
+                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/002.jpg" alt="Frankincense Neglecta" class="w-full h-80 object-cover img-zoom">
+                </div>
+                <div class="md:col-span-7">
+                    <h3 class="font-serif text-3xl text-incense-gold mb-2">Frankincense (Boswellia neglecta)</h3>
+                    <p class="text-gray-400 text-sm mb-4 uppercase tracking-wider">Ethiopia</p>
+                    <p class="text-gray-200 mb-6 leading-relaxed">A resin of grounding sweetness and steady ascent. Used for purification, internal stillness, and spiritual readiness.</p>
+                    <blockquote class="border-l-4 border-incense-gold pl-4 py-2 italic text-incense-gold-light text-lg font-serif">
+                        “In stillness, the faithful find the path of purity.”
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+
+        <!-- Frankincense (Sacra) -->
+        <section class="py-20 border-b border-white/5">
+            <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-7 order-2 md:order-1 text-right md:text-right text-left">
+                    <h3 class="font-serif text-3xl text-incense-gold mb-2">Frankincense (Boswellia sacra)</h3>
+                    <p class="text-gray-400 text-sm mb-4 uppercase tracking-wider">Oman</p>
+                    <p class="text-gray-200 mb-6 leading-relaxed">Revered as one of the holiest fragrances. Elevates prayer, sharpens perception, and opens the mind toward divine alignment.</p>
+                    <blockquote class="border-r-4 border-incense-gold pr-4 py-2 italic text-incense-gold-light text-lg font-serif inline-block text-right">
+                        “Let the rising smoke carry the heart toward the Eternal.”
+                    </blockquote>
+                </div>
+                <div class="md:col-span-5 order-1 md:order-2 img-zoom-container rounded shadow-lg">
+                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/003.jpg" alt="Frankincense Sacra" class="w-full h-80 object-cover img-zoom">
+                </div>
+            </div>
+        </section>
+
+        <!-- Myrrh (Socotra) -->
+        <section class="py-20 border-b border-white/5 bg-incense-stone/50">
+            <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-5 img-zoom-container rounded shadow-lg">
+                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/004.jpg" alt="Myrrh Socotra" class="w-full h-80 object-cover img-zoom">
+                </div>
+                <div class="md:col-span-7">
+                    <h3 class="font-serif text-3xl text-incense-gold mb-2">Myrrh (Commiphora kua)</h3>
+                    <p class="text-gray-400 text-sm mb-4 uppercase tracking-wider">Socotra</p>
+                    <p class="text-gray-200 mb-6 leading-relaxed">A rare island resin valued for healing and inner restoration. Supports emotional balance and quiet communion.</p>
+                    <blockquote class="border-l-4 border-incense-gold pl-4 py-2 italic text-incense-gold-light text-lg font-serif">
+                        “Healing begins where the heart returns to its Source.”
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+
+        <!-- Galbanum -->
+        <section class="py-20 border-b border-white/5">
+            <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-7 order-2 md:order-1 text-right md:text-right text-left">
+                    <h3 class="font-serif text-3xl text-incense-gold mb-2">Galbanum (Ferula galbaniflua)</h3>
+                    <p class="text-gray-400 text-sm mb-4 uppercase tracking-wider">Iran</p>
+                    <p class="text-gray-200 mb-6 leading-relaxed">A sharp, sacred resin historically linked with Temple incense. Represents discipline, obedience, and sacred order.</p>
+                    <blockquote class="border-r-4 border-incense-gold pr-4 py-2 italic text-incense-gold-light text-lg font-serif inline-block text-right">
+                        “Holiness is the fruit of discipline freely chosen.”
+                    </blockquote>
+                </div>
+                <div class="md:col-span-5 order-1 md:order-2 img-zoom-container rounded shadow-lg">
+                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/011.jpg" alt="Galbanum" class="w-full h-80 object-cover img-zoom">
+                </div>
+            </div>
+        </section>
+
+        <!-- Sweet Myrrh -->
+        <section class="py-20 border-b border-white/5 bg-incense-stone/50">
+             <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-5 img-zoom-container rounded shadow-lg">
+                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/006.jpg" alt="Sweet Myrrh" class="w-full h-80 object-cover img-zoom">
+                </div>
+                <div class="md:col-span-7">
+                    <h3 class="font-serif text-3xl text-incense-gold mb-2">Sweet Myrrh / Opoponax</h3>
+                    <p class="text-gray-400 text-sm mb-4 uppercase tracking-wider">Somalia (Commiphora opopanax)</p>
+                    <p class="text-gray-200 mb-6 leading-relaxed">A warm, honeyed myrrh used for renewal, reflection, and cleansing of the inner life.</p>
+                    <blockquote class="border-l-4 border-incense-gold pl-4 py-2 italic text-incense-gold-light text-lg font-serif">
+                        “Renewal comes to the soul that remembers its purpose.”
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+
+        <!-- Frankincense Carteri -->
+        <section class="py-20 border-b border-white/5">
+            <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-7 order-2 md:order-1 text-right md:text-right text-left">
+                    <h3 class="font-serif text-3xl text-incense-gold mb-2">Frankincense (Boswellia carteri)</h3>
+                    <p class="text-gray-400 text-sm mb-4 uppercase tracking-wider">Ethiopia</p>
+                    <p class="text-gray-200 mb-6 leading-relaxed">Bright and uplifting. Used for clarity, meditation, and preparing the mind for insight.</p>
+                    <blockquote class="border-r-4 border-incense-gold pr-4 py-2 italic text-incense-gold-light text-lg font-serif inline-block text-right">
+                        “Those who seek wisdom rise as incense toward the Light.”
+                    </blockquote>
+                </div>
+                <div class="md:col-span-5 order-1 md:order-2 img-zoom-container rounded shadow-lg">
+                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/007.jpg" alt="Frankincense Carteri" class="w-full h-80 object-cover img-zoom">
+                </div>
+            </div>
+        </section>
+
+        <!-- Sandalwood -->
+        <section class="py-20 border-b border-white/5 bg-incense-stone/50">
+             <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-5 img-zoom-container rounded shadow-lg">
+                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/008.jpg" alt="Sandalwood" class="w-full h-80 object-cover img-zoom">
+                </div>
+                <div class="md:col-span-7">
+                    <h3 class="font-serif text-3xl text-incense-gold mb-2">Sandalwood (Santalum album)</h3>
+                    <p class="text-gray-400 text-sm mb-4 uppercase tracking-wider">India</p>
+                    <p class="text-gray-200 mb-6 leading-relaxed">A wood of soft radiance and gentle sanctity. Used to calm the breath, steady the heart, and prepare the mind for contemplation. Its smooth, cooling fragrance was favored for long periods of meditation and nocturnal prayer.</p>
+                    <blockquote class="border-l-4 border-incense-gold pl-4 py-2 italic text-incense-gold-light text-lg font-serif">
+                        “The quiet heart becomes a vessel for divine understanding.”
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kyphi -->
+        <section class="py-20">
+            <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-7 order-2 md:order-1 text-right md:text-right text-left">
+                    <h3 class="font-serif text-3xl text-incense-gold mb-2">Kyphi (Kapet)</h3>
+                    <p class="text-gray-400 text-sm mb-4 uppercase tracking-wider">Egypt</p>
+                    <p class="text-gray-200 mb-6 leading-relaxed">The ancient Egyptian night incense, similar to the Temple incense, crafted from resins, fruits, wine, and honey. Burned for purification, healing dreams, and the release of burdens carried through the day. Its layered sweetness invites remembrance, forgiveness, and spiritual renewal.</p>
+                    <blockquote class="border-r-4 border-incense-gold pr-4 py-2 italic text-incense-gold-light text-lg font-serif inline-block text-right">
+                        “Through the sweetness of night, the soul finds its way back to peace.”
+                    </blockquote>
+                </div>
+                <div class="md:col-span-5 order-1 md:order-2 img-zoom-container rounded shadow-lg">
+                    <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/009.jpg" alt="Kyphi" class="w-full h-80 object-cover img-zoom">
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- FEATURED EVENT CALLOUT -->
+    <!-- Using a Parallax Background here for impact -->
+    <div class="relative py-24 px-6 parallax-bg" style="background-image: url('https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/019.jpg');">
+        <div class="absolute inset-0 bg-incense-dark/80"></div>
+        <div class="relative z-10 max-w-3xl mx-auto text-center border-y-2 border-incense-gold/50 py-12">
+            <div class="mb-4">
+                <i class="fa-solid fa-star text-incense-gold text-2xl animate-pulse"></i>
+            </div>
+            <h2 class="font-serif text-3xl md:text-5xl text-white mb-6">Join Us: The Next Incense Journey</h2>
+            <p class="text-xl text-incense-gold-light mb-2">Sponsored by Yen-ology</p>
+            <p class="font-bold text-2xl text-white mb-8">December 7th, 2025</p>
+            
+            <a href="https://www.yen-ology.com/products/the-incense-journey-sponsored-by-yenology?start=2025-12-01T00:00&select=2025-12-07T14:00" target="_blank" class="inline-block bg-incense-gold text-incense-dark font-bold text-lg px-8 py-4 rounded-sm hover:bg-white transition duration-300 shadow-lg shadow-incense-gold/20">
+                Reserve Your Spot Now
+            </a>
+        </div>
+    </div>
+
+    <!-- EVENT GALLERY RECAP -->
+    <section class="py-20 px-6 max-w-7xl mx-auto">
+        <div class="text-center mb-12">
+            <h2 class="font-serif text-3xl text-incense-gold">Moments from the Gathering</h2>
+            <div class="w-24 h-1 bg-incense-gold mx-auto mt-4"></div>
+        </div>
+        
+        <!-- Masonry-style Grid -->
+        <div class="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
+            <!-- Added onerror handlers to gracefully hide any broken images automatically -->
+            <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/010.jpg" class="w-full rounded shadow-md hover:opacity-90 transition cursor-pointer" onclick="openModal(this)" onerror="this.style.display='none'">
+            <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/012.jpg" class="w-full rounded shadow-md hover:opacity-90 transition cursor-pointer" onclick="openModal(this)" onerror="this.style.display='none'">
+            <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/013.jpg" class="w-full rounded shadow-md hover:opacity-90 transition cursor-pointer" onclick="openModal(this)" onerror="this.style.display='none'">
+            <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/014.jpg" class="w-full rounded shadow-md hover:opacity-90 transition cursor-pointer" onclick="openModal(this)" onerror="this.style.display='none'">
+            <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/015.jpg" class="w-full rounded shadow-md hover:opacity-90 transition cursor-pointer" onclick="openModal(this)" onerror="this.style.display='none'">
+            <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/016.jpg" class="w-full rounded shadow-md hover:opacity-90 transition cursor-pointer" onclick="openModal(this)" onerror="this.style.display='none'">
+            <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/017.jpg" class="w-full rounded shadow-md hover:opacity-90 transition cursor-pointer" onclick="openModal(this)" onerror="this.style.display='none'">
+            <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/018.jpg" class="w-full rounded shadow-md hover:opacity-90 transition cursor-pointer" onclick="openModal(this)" onerror="this.style.display='none'">
+            <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/020.jpg" class="w-full rounded shadow-md hover:opacity-90 transition cursor-pointer" onclick="openModal(this)" onerror="this.style.display='none'">
+            <img src="https://filedn.com/l3dxEBhJeAeb3qud0LuwFI4/Incense/ESSENE/005.jpg" class="w-full rounded shadow-md hover:opacity-90 transition cursor-pointer" onclick="openModal(this)" onerror="this.style.display='none'">
+        </div>
+    </section>
+
+    <!-- CONTACT & VENDORS -->
+    <footer class="bg-incense-stone py-16 px-6 border-t border-incense-gold/30">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
+            
+            <!-- Contact -->
+            <div class="space-y-6">
+                <h3 class="font-serif text-2xl text-incense-gold">Contact</h3>
+                <div>
+                    <p class="font-bold text-lg text-white">John Launius</p>
+                    <p class="text-incense-gold-light mb-2">Kōmoto, Founder of Shihan Wellness</p>
+                    <p class="text-gray-400 text-sm mt-4 mb-1">Contact me directly:</p>
+                    <a href="mailto:John@shihan-wellness.com" class="text-incense-gold hover:text-white transition font-medium"><i class="fa-regular fa-envelope mr-2"></i> John@shihan-wellness.com</a>
+                </div>
+                
+                <div class="pt-4">
+                    <p class="font-serif text-lg text-white mb-2">Additional Reading</p>
+                    <p class="text-sm text-gray-400 mb-2">Please enjoy "Fragrance Wellness - The Scent of Peak Performance":</p>
+                    <a href="#" class="inline-flex items-center text-incense-gold hover:text-white transition">
+                        Read Article on LinkedIn <i class="fa-solid fa-arrow-up-right-from-square ml-2 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Vendors -->
+            <div>
+                <h3 class="font-serif text-2xl text-incense-gold mb-6">Recommended Vendors & Artisans</h3>
+                <ul class="space-y-6 text-sm md:text-base">
+                    <li>
+                        <a href="http://www.yen-ology.com/" target="_blank" class="font-bold text-white hover:text-incense-gold text-lg block">Yen-ology</a>
+                        <p class="text-incense-gold-light text-xs italic mb-1">Proud sponsor of The Incense Journey™</p>
+                        <p class="text-gray-400">Receive 10% off when you mention Kōmoto, John Launius and Shihan Wellness.</p>
+                    </li>
+                    <li>
+                        <a href="http://www.scents-of-earth.com/" target="_blank" class="font-bold text-white hover:text-incense-gold text-lg block">Scents of Earth</a>
+                        <p class="text-gray-400">Use code <span class="text-incense-gold font-mono">L2025</span> to receive a discount on your order.</p>
+                    </li>
+                    <li>
+                        <a href="http://www.mermadearts.com/" target="_blank" class="font-bold text-white hover:text-incense-gold text-lg block">Mermade Arts</a>
+                        <p class="text-gray-400">Mention Kōmoto, John Launius and Shihan Wellness...</p>
+                    </li>
+                     <li>
+                        <a href="http://www.japanincense.com/" target="_blank" class="font-bold text-white hover:text-incense-gold text-lg block">Japan Incense</a>
+                        <p class="text-gray-400">Mention Kōmoto, John Launius and Shihan Wellness...</p>
+                    </li>
+                    <li>
+                         <span class="font-bold text-white text-lg block">The Soul Place</span>
+                         <p class="text-gray-400 mb-2">For electric incense warmers and other items.</p>
+                         <div class="flex flex-wrap gap-3">
+                             <a href="https://the-soul-place.square.site/product/classic-heater/R37ZA5XQP5NYP32DXCQ3FERK?cp=true&sa=false&sbp=false&q=true" target="_blank" class="text-xs border border-gray-600 px-3 py-1 rounded hover:border-incense-gold hover:text-incense-gold transition">View Classic Heater →</a>
+                             <a href="https://the-soul-place.square.site/product/premium-heater/OIA7G2KWJI2TFURFYFA7QCWP?cp=true&sa=false&sbp=false&q=true" target="_blank" class="text-xs border border-gray-600 px-3 py-1 rounded hover:border-incense-gold hover:text-incense-gold transition">View Premium Heater →</a>
+                         </div>
+                    </li>
+                     <li>
+                        <a href="http://www.apothecarysgarden.com/" target="_blank" class="font-bold text-white hover:text-incense-gold text-lg block">Apothecary's Garden</a>
+                        <p class="text-gray-400">A Canadian website for premium and rare incense resins and products.</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="mt-20 pt-8 border-t border-white/5 text-center">
+            <p class="text-xs text-gray-500 font-mono">Website created by: Darrell Wright, Senior Student in The Way of Incense.</p>
+        </div>
+    </footer>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="imageModal" class="fixed inset-0 z-50 bg-black/95 hidden flex items-center justify-center p-4 cursor-zoom-out" onclick="closeModal()">
+        <img id="modalImg" src="" alt="Full size" class="max-h-[90vh] max-w-[90vw] object-contain rounded-sm shadow-2xl shadow-incense-gold/20">
+    </div>
+
+    <script>
+        function openModal(element) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            modalImg.src = element.src;
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
